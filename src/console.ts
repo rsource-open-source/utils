@@ -60,6 +60,24 @@ export module rconsole {
     console.log(output);
   }
 
+  export function logErr(
+    title: string,
+    message: string,
+    important?: boolean,
+    raw?: boolean
+  ): void {
+    log(title, message, "red", important, raw);
+  }
+
+  export function logWarn(
+    title: string,
+    message: string,
+    important?: boolean,
+    raw?: boolean
+  ): void {
+    log(title, message, "yellow", important, raw);
+  }
+
   export function getBranch() {
     new Promise((resolve, reject) => {
       return exec("git rev-parse --abbrev-ref HEAD", (err, stdout, _) => {
