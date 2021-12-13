@@ -1,6 +1,7 @@
 import { exec } from "child_process";
 import chalk from "chalk";
-import * as pkgi from "./../package.json";
+//@ts-ignore
+import * as pkgi from "./../../../package.json";
 
 export module rconsole {
   type chalkFns =
