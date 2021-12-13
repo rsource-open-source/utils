@@ -1,5 +1,5 @@
-import * as Constants from "./constants";
-import * as Console from "./console";
-import * as Discord from "./discord";
+import * as rConstants from "./constants";
+import * as rConsole from "./console";
+import * as rDiscord from "./discord";
 
-export { Constants, Console, Discord };
+export { rConstants, rConsole, rDiscord };
