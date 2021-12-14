@@ -6,3 +6,6 @@ updates:
       interval: "weekly"
     labels:
       - "dependency"
+    ignore:
+      - dependency-name: "chalk"
+        versions: ["5.0.0"]
