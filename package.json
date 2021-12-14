@@ -1,6 +1,6 @@
 {
   "name": "rsource-utils",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Utilitarian modules used across the rsource discord robots.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,9 +30,9 @@
     "url": "https://github.com/rsource-open-source/utils/issues"
   },
   "homepage": "https://github.com/rsource-open-source/utils#readme",
-  "dependencies": {
+  "peerDependencies": {
     "chalk": "^5.0.0",
     "detritus-client": "^0.16.3",
-    "typescript": "^4.5.3"
+    "typescript": "^4.5.4"
   }
 }
