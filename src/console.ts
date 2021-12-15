@@ -1,42 +1,19 @@
 import { exec } from "child_process";
 import chalk from "chalk";
+import * as types from "./internal_types";
+import { colorToBackgroundColor } from "./internal_utils";
 //@ts-ignore
-import * as pkgi from "./../../../package.json";
-
-export const packageJson = pkgi;
-
-export function testFile() {
-  console.log(chalk, pkgi);
-}
-
-type chalkFns =
-  | "red"
-  | "green"
-  | "yellow"
-  | "blue"
-  | "magenta"
-  | "cyan"
-  | "white"
-  | "gray"
-  | "bgRed"
-  | "bgGreen"
-  | "bgYellow"
-  | "bgBlue"
-  | "bgMagenta"
-  | "bgCyan"
-  | "bgWhite"
-  | "bgGray";
+import * as fetchedPackageJson from "./../../../package.json";
 
 export function log(
   title: string,
   message: string,
-  color: chalkFns,
-  important?: boolean,
-  subtitle?: string, // only works if important is true
-  raw?: boolean
+  color: types.chalkFns,
+  important = false,
+  raw = false
 ): void | string {
-  let projectColor: chalkFns = "bgWhite";
-  switch (pkgi.name) {
+  let projectColor: types.chalkFns = "bgWhite";
+  switch (fetchedPackageJson.name) {
     case "rsource-records":
       projectColor = "blue";
       break;
@@ -49,21 +26,23 @@ export function log(
     date: raw
       ? `[${new Date().toLocaleTimeString("en-US")}`
       : chalk.gray(`[${new Date().toLocaleTimeString("en-US")}`),
-    project: raw ? `[${pkgi.name}]` : chalk[projectColor](`[${pkgi.name}]`),
-    title: raw ? `[${title}]` : chalk[color](`[${title}]`),
+    project: raw
+      ? `[${fetchedPackageJson.name}]`
+      : chalk[projectColor](`[${fetchedPackageJson.name}]`),
+    title: raw
+      ? `[${title}]`
+      : important
+      ? chalk[color](colorToBackgroundColor(color))
+      : chalk[color](`[${title}]`),
     message: message,
-    subtitle: raw ? subtitle : chalk[color](subtitle),
   };
 
   let msg = {
-    top: `${structure.date} ${
-      structure.subtitle ? structure.subtitle + " " : " "
-    }${structure.project} ${structure.title}`,
+    top: `${structure.date} ${structure.project} ${structure.title}`,
     msg: structure.message,
   };
 
-  let output = important ? `\n-- ${msg.top}\n-- ${msg}\n` : `${msg.top} ${msg}`;
-  chalk.reset;
+  let output = important ? `${msg.top}\n${msg}\n` : `${msg.top} ${msg}`;
   if (raw) return String.raw`${output}`;
   console.log(output);
 }
@@ -71,23 +50,19 @@ export function log(
 export function logErr(
   title: string,
   message: string,
-  // color: chalkFns,
-  important?: boolean,
-  subtitle?: string, // only works if important is true
-  raw?: boolean
+  important = false,
+  raw = false
 ): void {
-  log(title, message, "red", important, subtitle, raw);
+  log(title, message, "red", important, raw);
 }
 
 export function logWarn(
   title: string,
   message: string,
-  // color: chalkFns,
-  important?: boolean,
-  subtitle?: string, // only works if important is true
-  raw?: boolean
+  important = false,
+  raw = false
 ): void {
-  log(title, message, "yellow", important, subtitle, raw);
+  log(title, message, "yellow", important, raw);
 }
 
 export function getBranch() {

@@ -6,7 +6,7 @@ import { rsourceLoggingChannel } from "./constants";
 export async function rsourceServerLog(
   client: ShardClient,
   message: string,
-  embed: boolean,
+  embed = true,
   highlight?: CodeblockFilterOptions
 ) {
   embed
