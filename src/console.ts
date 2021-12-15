@@ -3,6 +3,12 @@ import chalk from "chalk";
 //@ts-ignore
 import * as pkgi from "./../../../package.json";
 
+export const packageJson = pkgi;
+
+export function testFile() {
+  console.log(chalk, pkgi);
+}
+
 type chalkFns =
   | "red"
   | "green"
