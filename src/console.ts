@@ -26,6 +26,7 @@ export function log(
   message: string,
   color: chalkFns,
   important?: boolean,
+  subtitle?: string, // only works if important is true
   raw?: boolean
 ): void | string {
   let projectColor: chalkFns = "bgWhite";
@@ -45,10 +46,13 @@ export function log(
     project: raw ? `[${pkgi.name}]` : chalk[projectColor](`[${pkgi.name}]`),
     title: raw ? `[${title}]` : chalk[color](`[${title}]`),
     message: message,
+    subtitle: raw ? subtitle : chalk[color](subtitle),
   };
 
   let msg = {
-    top: `${structure.date} ${structure.project} ${structure.title}`,
+    top: `${structure.date} ${
+      structure.subtitle ? structure.subtitle + " " : " "
+    }${structure.project} ${structure.title}`,
     msg: structure.message,
   };
 
@@ -61,19 +65,23 @@ export function log(
 export function logErr(
   title: string,
   message: string,
+  // color: chalkFns,
   important?: boolean,
+  subtitle?: string, // only works if important is true
   raw?: boolean
 ): void {
-  log(title, message, "red", important, raw);
+  log(title, message, "red", important, subtitle, raw);
 }
 
 export function logWarn(
   title: string,
   message: string,
+  // color: chalkFns,
   important?: boolean,
+  subtitle?: string, // only works if important is true
   raw?: boolean
 ): void {
-  log(title, message, "yellow", important, raw);
+  log(title, message, "yellow", important, subtitle, raw);
 }
 
 export function getBranch() {
