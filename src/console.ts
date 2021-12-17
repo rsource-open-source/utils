@@ -24,7 +24,7 @@ export function log(
 
   let structure = {
     date: raw
-      ? `[${new Date().toLocaleTimeString("en-US")}`
+      ? `[${new Date().toLocaleTimeString("en-US")}]`
       : chalk.gray(`[${new Date().toLocaleTimeString("en-US")}`),
     project: raw
       ? `[${fetchedPackageJson.name}]`
@@ -42,7 +42,7 @@ export function log(
     msg: structure.message,
   };
 
-  let output = important ? `${msg.top}\n${msg}\n` : `${msg.top} ${msg}`;
+  let output = important ? `${msg.top}\n${msg.msg}\n` : `${msg.top} ${msg.msg}`;
   if (raw) return String.raw`${output}`;
   console.log(output);
 }
