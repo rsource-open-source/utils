@@ -7,7 +7,8 @@
     "rootDir": "./src",
     "strict": true,
     "target": "esnext",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]
