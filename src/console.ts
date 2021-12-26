@@ -2,8 +2,19 @@ import { exec } from "child_process";
 import chalk from "chalk";
 import * as types from "./internal_types";
 import { colorToBackgroundColor } from "./internal_utils";
-//@ts-ignore
-import * as fetchedPackageJson from "./../../../package.json";
+import fs from "fs/promises";
+
+interface MinifiedPackageJson {
+  name: string;
+  version: string;
+}
+
+// Find a way to one line this into the object itself
+const fetchedPackageJson: () => Promise<MinifiedPackageJson> = () => {
+  return (
+    fs.readFile("./../../../package.json", "utf8").then(JSON.parse) || null
+  );
+};
 
 export function log(
   title: string,
@@ -47,7 +58,7 @@ export function log(
   console.log(output);
 }
 
-export function logErr(
+export function err(
   title: string,
   message: string,
   important = false,
@@ -56,7 +67,7 @@ export function logErr(
   log(title, message, "red", important, raw);
 }
 
-export function logWarn(
+export function warn(
   title: string,
   message: string,
   important = false,
@@ -67,10 +78,8 @@ export function logWarn(
 
 export function getBranch() {
   new Promise((resolve, reject) => {
-    return exec("git rev-parse --abbrev-ref HEAD", (err, stdout, _) => {
-      if (err) console.error(err);
-      else if (stdout === undefined) reject("lol");
-      else if (typeof stdout === "string") resolve(stdout.trim());
-    });
+    return exec("git rev-parse --abbrev-ref HEAD", (err, stdout, _) =>
+      err ? reject(err) : resolve(stdout.trim())
+    );
   });
 }
