@@ -1,6 +1,6 @@
 // This file is for functions that are used internally by the library.
 
-import * as types from "./internal_types";
+import * as types from "./types";
 
 export function colorToBackgroundColor(
   string: types.chalkFns

@@ -1,37 +1,43 @@
+import { Result, Ok, Err } from "ts-results";
+
 import { exec } from "child_process";
 import chalk from "chalk";
-import * as types from "./internal_types";
-import { colorToBackgroundColor } from "./internal_utils";
+
+import * as t from "./types";
+import { colorToBackgroundColor } from "./utils";
+
 import fs from "fs/promises";
 
-interface MinifiedPackageJson {
-  name: string;
-  version: string;
-}
+const fetchedPackageJson: Promise<t.MinifiedPackageJson | null> =
+  fs.readFile("./../../../package.json", "utf8").then(JSON.parse) || null;
 
-// Find a way to one line this into the object itself
-const fetchedPackageJson: () => Promise<MinifiedPackageJson> = () => {
-  return (
-    fs.readFile("./../../../package.json", "utf8").then(JSON.parse) || null
-  );
-};
+export async function setPackageJson(
+  packageJson: t.MinifiedPackageJson
+): Result<boolean, Error> {
+  let pkg = await fetchedPackageJson;
+  pkg ||= 2;
+}
 
 export function log(
   title: string,
   message: string,
-  color: types.chalkFns,
+  color: t.chalkFns,
   important = false,
   raw = false
 ): void | string {
-  let projectColor: types.chalkFns = "bgWhite";
-  switch (fetchedPackageJson.name) {
-    case "rsource-records":
-      projectColor = "blue";
-      break;
-    case "rsource-mapforums":
-      projectColor = "magenta";
-      break;
-  }
+  let projectColor: t.chalkFns = "bgWhite";
+  (async () => {
+    let pkg = (await fetchedPackageJson) || null;
+    if (!pkg) throw "package.json not found";
+    switch (pkg.name) {
+      case "rsource-records":
+        projectColor = "blue";
+        break;
+      case "rsource-mapforums":
+        projectColor = "magenta";
+        break;
+    }
+  })();
 
   let structure = {
     date: raw

@@ -1,4 +1,7 @@
-export type chalkFns =
+import { ForegroundColor, BackgroundColor } from "chalk";
+
+// Chalk
+export type chalkColorFns =
   | red
   | green
   | yellow
@@ -16,3 +19,11 @@ export type magenta = "magenta" | "bgMagenta";
 export type cyan = "cyan" | "bgCyan";
 export type white = "white" | "bgWhite";
 export type gray = "gray" | "bgGray";
+
+export type chalkFns = typeof ForegroundColor | typeof BackgroundColor;
+
+// Relevant part of the package.json file
+export interface MinifiedPackageJson {
+  name: string;
+  version: string;
+}
