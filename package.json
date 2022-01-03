@@ -1,6 +1,6 @@
 {
   "name": "rsource-utils",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Utilitarian modules used across the rsource discord robots.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -35,7 +35,6 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
-    "ts-results": "^3.3.0"
+    "chalk": "^4.1.2"
   }
 }

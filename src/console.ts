@@ -1,22 +1,11 @@
-import { Result, Ok, Err } from "ts-results";
-
 import { exec } from "child_process";
 import chalk from "chalk";
-
 import * as t from "./types";
 import { colorToBackgroundColor } from "./utils";
-
 import fs from "fs/promises";
 
-const fetchedPackageJson: Promise<t.MinifiedPackageJson | null> =
+export const fetchedPackageJson: Promise<t.MinifiedPackageJson | null> =
   fs.readFile("./../../../package.json", "utf8").then(JSON.parse) || null;
-
-export async function setPackageJson(
-  packageJson: t.MinifiedPackageJson
-): Result<boolean, Error> {
-  let pkg = await fetchedPackageJson;
-  pkg ||= 2;
-}
 
 export function log(
   title: string,
@@ -24,28 +13,11 @@ export function log(
   color: t.chalkFns,
   important = false,
   raw = false
-): void | string {
-  let projectColor: t.chalkFns = "bgWhite";
-  (async () => {
-    let pkg = (await fetchedPackageJson) || null;
-    if (!pkg) throw "package.json not found";
-    switch (pkg.name) {
-      case "rsource-records":
-        projectColor = "blue";
-        break;
-      case "rsource-mapforums":
-        projectColor = "magenta";
-        break;
-    }
-  })();
-
+) {
   let structure = {
     date: raw
       ? `[${new Date().toLocaleTimeString("en-US")}]`
       : chalk.gray(`[${new Date().toLocaleTimeString("en-US")}`),
-    project: raw
-      ? `[${fetchedPackageJson.name}]`
-      : chalk[projectColor](`[${fetchedPackageJson.name}]`),
     title: raw
       ? `[${title}]`
       : important
@@ -55,7 +27,7 @@ export function log(
   };
 
   let msg = {
-    top: `${structure.date} ${structure.project} ${structure.title}`,
+    top: `${structure.date} ${structure.title}`,
     msg: structure.message,
   };
 
