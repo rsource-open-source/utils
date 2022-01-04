@@ -5,7 +5,7 @@ import { colorToBackgroundColor } from "./utils";
 import fs from "fs/promises";
 
 export const fetchedPackageJson: Promise<t.MinifiedPackageJson | null> =
-  fs.readFile("./../../../package.json", "utf8").then(JSON.parse) || null;
+  fs.readFile("./../package.json", "utf8").then(JSON.parse) || null;
 
 export function log(
   title: string,
