@@ -2,10 +2,6 @@ import { exec } from "child_process";
 import chalk from "chalk";
 import * as t from "./types";
 import { colorToBackgroundColor } from "./utils";
-import fs from "fs/promises";
-
-export const fetchedPackageJson: Promise<t.MinifiedPackageJson | null> =
-  fs.readFile("./../package.json", "utf8").then(JSON.parse) || null;
 
 export function log(
   title: string,
